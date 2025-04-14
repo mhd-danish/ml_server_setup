@@ -45,33 +45,6 @@ echo "✅ Environment 'llm_fft' created, Jupyter kernel registered, and activate
 echo "📦 Installing unsloth. This may take some time..."
 pip install unsloth
 
-echo "📦 Installing Jupyter Notebook in the base environment..."
-
-# Step 2: Install Jupyter in the base environment
-conda deactivate
-conda install -y notebook
-
-# Step 3: Set Jupyter password to '123'
-python -c "from notebook.auth import passwd; print(passwd('123'))" > ~/.jupyter_password.txt
-
-# Get the hashed password from the file
-PASSWORD_HASH=$(cat ~/.jupyter_password.txt)
-
-# Step 4: Set password in the Jupyter config file
-mkdir -p ~/.jupyter
-cat > ~/.jupyter/jupyter_notebook_config.py <<EOF
-c = get_config()
-c.NotebookApp.password = u'$PASSWORD_HASH'
-c.NotebookApp.ip = '0.0.0.0'
-c.NotebookApp.open_browser = False
-c.NotebookApp.port = 8888
-EOF
-
-# Step 5: Run Jupyter Notebook in the background
-echo "✅ Jupyter Notebook installed and configured. Running it now..."
-cd / && jupyter-notebook --allow-root --ip 0.0.0.0 --port 8888 &
-
-
 echo "🐍 Creating Conda environment: vllm_serve with Python 3.12..."
 
 # Step 2: Create the environment
@@ -87,6 +60,24 @@ pip install ipykernel
 python -m ipykernel install --user --name=vllm_serve --display-name "Python (vllm_serve)"
 
 echo "✅ Environment 'vllm_serve' created, Jupyter kernel registered, and activated."
+conda activate vllm
 
 echo "📦 Installing vllm. This may take some time..."
-conda activate vllm
+pip install -q vllm
+
+echo "📦 Installing Jupyter Notebook in the base environment..."
+
+# Step 1: Ensure conda is available
+source ~/miniconda3/bin/activate
+
+# Step 2: Install Jupyter in the base environment
+conda activate base
+pip install -q notebook
+
+# Step 3: Set Jupyter password to '123'
+echo "Setting Jupyter password..."
+jupyter notebook password
+
+# Step 5: Run Jupyter Notebook in the background
+echo "✅ Jupyter Notebook installed and configured. Running it now..."
+jupyter-notebook --allow-root --ip 0.0.0.0 --port 8888 &
