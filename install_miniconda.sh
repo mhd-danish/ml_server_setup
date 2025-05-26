@@ -80,4 +80,4 @@ jupyter notebook password
 
 # Step 5: Run Jupyter Notebook in the background
 echo "✅ Jupyter Notebook installed and configured. Running it now..."
-jupyter-notebook --allow-root --ip 0.0.0.0 --port 8888 &
+cd / && jupyter-notebook --allow-root --ip 0.0.0.0 --port 8888 &
