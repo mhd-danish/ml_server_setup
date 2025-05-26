@@ -60,7 +60,7 @@ pip install ipykernel
 python -m ipykernel install --user --name=vllm_serve --display-name "Python (vllm_serve)"
 
 echo "✅ Environment 'vllm_serve' created, Jupyter kernel registered, and activated."
-conda activate vllm
+conda activate vllm_serve
 
 echo "📦 Installing vllm. This may take some time..."
 pip install -q vllm
